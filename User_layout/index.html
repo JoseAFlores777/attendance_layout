@@ -1,44 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/assets/img/logoApp/Isotipo_Positivo_bk/apple-touch-icon-72x72.png">
-    <!-- <link rel="stylesheet" type="text/css" href="/Bootstrap_themes/Materia_Theme/bootstrap.css">
-    <script src="/User_layout/anim.js"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    
-    <script src="https://kit.fontawesome.com/03845a66e5.js" crossorigin="anonymous"></script>
-    <title>Attendance</title>
-</head>
-<body>
-<!-- Start -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content_sidebar="width=device-width, initial-scale=1.0">
+    <title>Responsive Sidebar Dashboard Template</title>
+    <link rel="stylesheet" href="/Styles/SideBar/style_Sidebar.css">
+    <link rel="stylesheet" href="/Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+  </head>
+  <body>
+
+    <input type="checkbox" id="check_sidebar">
+    <!--header area start-->
+    <header class="navbar navbar-light bg-primary">
+      <div class="container-fluid">
+      <label for="check_sidebar">
+        <i class="fas fa-bars" id="sidebar2_btn"></i>
+      </label>
+      <div class="right_area ">
+        <a href="#" class="logout_btn ">Logout</a>
+      </div>
+      </div>
+    </header>
+    <!--header area end-->
+    <!--mobile navigation bar start-->
+    <div class="mobile_nav_sidebar">
+      <div class="nav_bar_sidebar">
+        <img src="/assets/img/otros/Foto_Perfil.png" class="mobile_profile_image_sidebar" alt="">
+        <i class="fa fa-bars nav_btn_sidebar"></i>
+      </div>
+      <div class="mobile_nav_items_sidebar">
+        <a href="#"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+        <a href="#"><i class="fas fa-cogs"></i><span>Components</span></a>
+        <a href="#"><i class="fas fa-table"></i><span>Tables</span></a>
+        <a href="#"><i class="fas fa-th"></i><span>Forms</span></a>
+        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+      </div>
     </div>
-  </div>
-</nav>
-<!-- End -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-</body>
+    <!--mobile navigation bar end-->
+    <!--sidebar start-->
+    <div class="sidebar2">
+      <div class="profile_info2">
+        <img src="/assets/img/otros/Foto_Perfil.png" class="profile_image_sidebar" alt="">
+        <h4>José</h4>
+      </div>
+      <a href="#"><i class="fas fa-tachometer-alt"></i><span>My Dashboard</span></a>
+      <a href="#"><i class="fas fa-users"></i><span>Employees</span></a>
+      <a href="#"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+      <a href="#"><i class="fas fa-map-marker-alt"></i><span>Monitoring</span></a>
+      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+    </div>
+
+    
+    <!--sidebar end-->
+
+    <div class="content_sidebar">
+      <div class="card_sidebar">
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+      </div>
+      <div class="card_sidebar">
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+      </div>
+      <div class="card_sidebar">
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('.nav_btn_sidebar').click(function(){
+        $('.mobile_nav_items_sidebar').toggleClass('active');
+      });
+    });
+    </script>
+
+  </body>
 </html>
+                           
