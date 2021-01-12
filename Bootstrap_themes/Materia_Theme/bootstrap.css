@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
 :root {
-  --blue: #4890CD;
+  --blue: #0469ac;
   --indigo: #6610f2;
   --purple: #6f42c1;
   --pink: #e83e8c;
@@ -10,10 +10,10 @@
   --green: #4CAF50;
   --teal: #20c997;
   --cyan: #9C27B0;
-  --white: #fff;
+  --white: #ffffff;
   --gray: #666;
   --gray-dark: #222;
-  --primary: #4890CD;
+  --primary: #0469ac;
   --secondary: #fff;
   --success: #4CAF50;
   --info: #9C27B0;
@@ -46,6 +46,9 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 /* CSS PERSONALIZADO */
 .icon{
   margin-right: 5px;
+}
+#LogOut{
+  margin-right: 10px;
 }
 
 body {
