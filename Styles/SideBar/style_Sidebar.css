@@ -25,30 +25,13 @@
   .left_area_sidebar span{
     color: #19B3D3;
   }
-    .logout_btn_sidebar{
 
-    padding: 5px;
-    background: #19B3D3;
-    text-decoration: none;
-    float: right;
-    margin-top: -30px;
-    margin-right: 40px;
-    border-radius: 2px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    transition: 0.5s;
-    transition-property: background;
-  }
-  
-  .logout_btn_sidebar:hover{
-    background: #0B87A6;
-  }
+
   
   .sidebar2{
     z-index: 1;
     top: 0;
-    background: #2f323a;
+    background: #346997;
     margin-top: 72px;
     padding-top: 30px;
     position: fixed;
@@ -58,6 +41,11 @@
     transition: 0.5s;
     transition-property: left;
     overflow-y: auto;
+  }
+  #sidebar2_btn{
+    color: #ffffff;
+    margin-left: 10px;
+    font-size: 20px;
   }
   
   .profile_info2{
@@ -93,7 +81,7 @@
   }
   
   .sidebar2 a:hover{
-    background: #19B3D3;
+    background: #4890CD;
   }
   
   .sidebar2 i{
@@ -111,9 +99,19 @@
     transition: 0.5s;
     transition-property: color;
   }
+  #Logo_navBar{
+    height: 60px;
+margin-left: 20px;
+     
+  }
   
   label #sidebar_btn2:hover{
-    color: #19B3D3;
+    color: #4890CD;
+
+  }
+
+  #item_sidebar:hover{
+    color: white;
   }
   
   #check_sidebar:checked ~ .sidebar2{
@@ -173,8 +171,10 @@
       display: none;
     }
   
-    #sidebar_btn2{
+    #sidebar2_btn{
       display: none;
+    
+      
     }
   
     .content_sidebar{
@@ -194,9 +194,9 @@
     }
   
     .nav_bar_sidebar{
-      background: #222;
+      background: #346997;
       width: (100% - 0px);
-      margin-top: 70px;
+      /* margin-top: 70px; */
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -218,16 +218,16 @@
     }
   
     .nav_bar_sidebar .nav_btn_sidebar:hover{
-      color: #19B3D3;
+      color: #fff;
     }
   
     .mobile_nav_items_sidebar{
-      background: #2F323A;
+      background: #244a6b;
       display: none;
     }
   
     .mobile_nav_items_sidebar a{
-      color: #fff;
+      color: rgb(255, 255, 255);
       display: block;
       text-align: center;
       letter-spacing: 1px;
@@ -239,7 +239,7 @@
     }
   
     .mobile_nav_items_sidebar a:hover{
-      background: #19B3D3;
+      background: #4890CD;
     }
   
     .mobile_nav_items_sidebar i{

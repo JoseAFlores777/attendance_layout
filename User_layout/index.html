@@ -15,11 +15,14 @@
     <!--header area start-->
     <header class="navbar navbar-light sticky-top bg-primary">
       <div class="container-fluid">
-      <label for="check_sidebar">
-        <i class="fas fa-bars" id="sidebar2_btn"></i>
-      </label>
+        <label for="check_sidebar">
+          <i class="fas fa-bars" id="sidebar2_btn"></i>
+          <img id="Logo_navBar"  src="/assets/img/logoApp/Imagotipo/logo_Negativo@4x.png" alt="">
+        </label>
+
       <div class="right_area ">
-        <a href="#" class="logout_btn ">Logout</a>
+        <button type="button" class="btn btn-outline-secondary button" >Log out</button>
+      
       </div>
       </div>
     </header>
@@ -31,13 +34,15 @@
         <i class="fa fa-bars nav_btn_sidebar"></i>
       </div>
       <div class="mobile_nav_items_sidebar">
-        <a href="#"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
-        <a href="#"><i class="fas fa-cogs"></i><span>Components</span></a>
-        <a href="#"><i class="fas fa-table"></i><span>Tables</span></a>
-        <a href="#"><i class="fas fa-th"></i><span>Forms</span></a>
-        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+
+        <div class="container">
+        <a id="item_sidebar" href="#" ></i><span>My Dashboard</span></a>
+        <a id="item_sidebar" href="#"><i class="fas fa-users"></i><span>Employees</span></a>
+        <a id="item_sidebar" href="#"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a id="item_sidebar" href="#"><i class="fas fa-map-marker-alt"></i><span>Monitoring</span></a>
+        <a id="item_sidebar" href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
       </div>
+    </div>
     </div>
     <!--mobile navigation bar end-->
     <!--sidebar start-->
@@ -46,11 +51,11 @@
         <img src="/assets/img/otros/Foto_Perfil.png" class="profile_image_sidebar" alt="">
         <h4>José</h4>
       </div>
-      <a href="#"><i class="fas fa-tachometer-alt"></i><span>My Dashboard</span></a>
-      <a href="#"><i class="fas fa-users"></i><span>Employees</span></a>
-      <a href="#"><i class="fas fa-tasks"></i><span>Tasks</span></a>
-      <a href="#"><i class="fas fa-map-marker-alt"></i><span>Monitoring</span></a>
-      <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+      <a id="item_sidebar" href="#"><i class="fas fa-tachometer-alt"></i><span>My Dashboard</span></a>
+      <a id="item_sidebar" href="#"><i class="fas fa-users"></i><span>Employees</span></a>
+      <a id="item_sidebar" href="#"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+      <a id="item_sidebar" href="#"><i class="fas fa-map-marker-alt"></i><span>Monitoring</span></a>
+      <a id="item_sidebar" href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
     </div>
 
     
@@ -74,8 +79,13 @@
         $('.mobile_nav_items_sidebar').toggleClass('active');
       });
     });
+    
     </script>
-
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+  });
+  </script>
   </body>
 </html>
                            
