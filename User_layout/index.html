@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content_sidebar="width=device-width, initial-scale=1.0">
-    <title>Responsive Sidebar Dashboard Template</title>
-    <link rel="stylesheet" href="/Styles/SideBar/style_Sidebar.css">
-    <link rel="stylesheet" href="/Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+    <title>Attendance</title>
+    <link rel="icon" href="../assets/img/logoApp/Isotipo_Positivo_bk/apple-touch-icon-76x76.png">
+    <link rel="stylesheet" href="../Styles/SideBar/style_Sidebar.css">
+    <link rel="stylesheet" href="../Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
   </head>
@@ -17,20 +18,22 @@
       <div class="container-fluid">
         <label for="check_sidebar">
           <i class="fas fa-bars" id="sidebar2_btn"></i>
-          <img id="Logo_navBar"  src="/assets/img/logoApp/Imagotipo/logo_Negativo@4x.png" alt="">
+          <img id="Logo_navBar"  src="../assets/img/logoApp/Imagotipo/logo_Negativo@4x.png" alt="">
         </label>
 
       <div class="right_area ">
         <button type="button" class="btn btn-outline-secondary button" >Log out</button>
+
       
       </div>
       </div>
+      
     </header>
     <!--header area end-->
     <!--mobile navigation bar start-->
     <div class="mobile_nav_sidebar">
       <div class="nav_bar_sidebar">
-        <img src="/assets/img/otros/Foto_Perfil.png" class="mobile_profile_image_sidebar" alt="">
+        <img src="../assets/img/otros/Foto_Perfil.png" class="mobile_profile_image_sidebar" alt="">
         <i class="fa fa-bars nav_btn_sidebar"></i>
       </div>
       <div class="mobile_nav_items_sidebar">
@@ -48,44 +51,48 @@
     <!--sidebar start-->
     <div class="sidebar2">
       <div class="profile_info2">
-        <img src="/assets/img/otros/Foto_Perfil.png" class="profile_image_sidebar" alt="">
-        <h4>José</h4>
+        <img src="../assets/img/otros/Foto_Perfil.png" class="profile_image_sidebar" alt="">
+        <h4>José Adolfo</h4>
       </div>
-      <a id="item_sidebar" href="#"><i class="fas fa-tachometer-alt"></i><span>My Dashboard</span></a>
+      <a id="item_sidebar" href="#"><i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></i><span>My Dashboard</span></a>
       <a id="item_sidebar" href="#"><i class="fas fa-users"></i><span>Employees</span></a>
       <a id="item_sidebar" href="#"><i class="fas fa-tasks"></i><span>Tasks</span></a>
       <a id="item_sidebar" href="#"><i class="fas fa-map-marker-alt"></i><span>Monitoring</span></a>
       <a id="item_sidebar" href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
     </div>
-
-    
     <!--sidebar end-->
 
+
     <div class="content_sidebar">
-      <div class="card_sidebar">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-      </div>
-      <div class="card_sidebar">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-      </div>
-      <div class="card_sidebar">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="card text-center">
+              <div class="card-header">
+                Conteo de Horas Trabajadas
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Jornada Actual</h5>
+                <h1 class="card-text crono">00:00:00</h1>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+              <div class="card-footer text-muted">
+                2 days ago
+              </div>
+            </div>
+          </div>
+ 
+        </div>
       </div>
     </div>
 
-    <script type="text/javascript">
-    $(document).ready(function(){
-      $('.nav_btn_sidebar').click(function(){
-        $('.mobile_nav_items_sidebar').toggleClass('active');
-      });
-    });
-    
-    </script>
-<script>
-  $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-  });
-  </script>
+
+
+    <script src="../User_layout/index.js"></script>
+    <script src="../Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/js/bootstrap.js"></script>
+
   </body>
 </html>
                            

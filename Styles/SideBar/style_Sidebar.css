@@ -130,7 +130,7 @@ margin-left: 20px;
   
   .content_sidebar{
     width: (100% - 250px);
-    margin-top: 60px;
+    margin-top: 13px;
     padding: 20px;
     margin-left: 250px;
     background: url(background.png) no-repeat;
@@ -139,7 +139,9 @@ margin-left: 20px;
     height: 100vh;
     transition: 0.5s;
   }
-  
+  .crono{
+    font-size: 500%;
+  }
   #check_sidebar:checked ~ .content_sidebar{
     margin-left: 60px;
   }
@@ -167,6 +169,7 @@ margin-left: 20px;
   /* Responsive CSS */
   
   @media screen and (max-width: 780px){
+
     .sidebar2{
       display: none;
     }
