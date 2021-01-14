@@ -23,9 +23,7 @@ $(document).ready(function () {
   
   //Cronómetro
  
-
-  let seg, min, hrs =0;
-  
+  let isPaused = false;
   let tiempo_trabajo = {
     hora: 0,
     minuto: 0,
@@ -84,36 +82,46 @@ $("#btn_start").click(function(){
     //     clearInterval(running_time);
     // }
 });
-  $('#btn_pause').click(function () {
-    $('#btn_pause').
-  // Cronometro(tiempo_pausa.hora, tiempo_pausa.minuto, tiempo_pausa.hora);
+  
+  $('#btn_pause').click(function () {    
+    isPaused = true;
+    $(this).text('Keep working');
+    $(this).removeClass('btn-warning');
+    $(this).addClass('btn-success');
+    // $('#btn_pause').
+    isPaused = false;
+
+   Cronometro(tiempo_pausa.hora, tiempo_pausa.minuto, tiempo_pausa.hora);
 });
   
   
   
   const Cronometro = (p_seg,p_min,p_hr) => { 
 
-    setInterval(function(){
-      // Segundos
-      p_seg++;
-    if (p_seg >= 60)
-      
-      {
-      p_seg = 0;
-          p_min++;
-      }      
 
-      // Minutos
-    if (p_min >= 60)
-      
-      {
-          p_min = 0;
-          p_hr++;
+    setInterval(function () {
+      if (!isPaused) {
+        
+        // Segundos
+        p_seg++;
+      if (p_seg >= 60)
+             {
+        p_seg = 0;
+            p_min++;
+        }      
+  
+        // Minutos
+      if (p_min >= 60)
+        
+        {
+            p_min = 0;
+            p_hr++;
+        }
+        console.log({ p_seg,p_min,p_hr });
+  
+  
+       return  $("#crono").text(`${p_hr < 10 ? '0' + p_hr : p_hr}:${p_min < 10 ? '0' + p_min : p_min}:${p_seg < 10 ? '0' + p_seg : p_seg}`);
       }
-      console.log({ p_seg,p_min,p_hr });
-
-
-     return  $("#crono").text(`${p_hr < 10 ? '0' + p_hr : p_hr}:${p_min < 10 ? '0' + p_min : p_min}:${p_seg < 10 ? '0' + p_seg : p_seg}`);
 
   }, 1000);
 
