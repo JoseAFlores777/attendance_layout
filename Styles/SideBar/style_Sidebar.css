@@ -172,7 +172,7 @@ margin-left: 20px;
   
   /* Responsive CSS */
   
-  @media screen and (max-width: 780px){
+  @media  (max-width: 780px){
 
     .sidebar2{
       display: none;
