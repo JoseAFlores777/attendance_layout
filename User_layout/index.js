@@ -7,7 +7,8 @@ $(document).ready(function () {
     $(".mobile_nav_items_sidebar").toggleClass("active");
   });
 
-  //inicializa el etilo de los tooltip mediante el popper.js como importado como cdn
+  //inicializa el etilo de los tooltip mediante el popper.
+  //necesario que esté importado <script src="../Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/js/popper.min.js"></script>
   $('[data-toggle="tooltip"]').tooltip();
 
   //muestra la fecha y la hora actual en el cronometro
@@ -174,6 +175,8 @@ $(document).ready(function () {
 
   // Evento al finalizar la Jornada
   $("#btn_finish").click(function () {
+    // para que la funcion swal se ejecute bien, se necesita importar
+    //el CDN - <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     swal("Well Done!!", "Its all", "success");
     clearInterval(pausaInterval);
     clearInterval(WorkInterval);
