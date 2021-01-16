@@ -71,8 +71,8 @@
 
 
     <div class="content_sidebar">
+      <!-- CRONÓMETRO- Es el Html del cronometro  -->
       <div class="container">
-
         <div class="row">
           <div class="col-12">
             <div class="card text-center">
@@ -81,6 +81,7 @@
               </div>
               <div class="card-body">
                 <div class="date_crono">
+                  <!-- AQUI SE PEGA LA FECHA ACTUAL, DESDE CODIGO JS -->
                   <!-- <h5 class="card-title">Jornada Actual</h5>                 -->
                 </div>
                 <h1 id="crono" class="card-text display-1 ">00:00:00</h1>
@@ -89,9 +90,7 @@
                       <a id="btn_start" href="#" class="btn btn-success">Start</a>
                   </div>
                   <div class="btn2_crono">
-                    <!-- <a  id="btn_pause" href="#" class="btn btn-warning col-md-2">Pause</a>
-                    <a id="btn_restart" href="#" class="btn btn-primary col-md-2">Restart</a>
-                    <a id="btn_finish" href="#" class="btn btn-danger col-md-2"> Finish day</a> -->
+                         <!--Estos botones se estilizaran desde js -->
                     <a  id="btn_pause" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></a>
                     <a id="btn_restart"></a>
                     <a id="btn_finish" ></a>
@@ -102,6 +101,9 @@
           </div>
         </div>
       </div>
+      <!-- CRONÓMETRO end -->
+
+      <!-- TABLA- Esta es la tabla que se llenara con los datos de las pausas -->
       <div class="container">
         <table class="table table-striped">
           <thead>
@@ -116,10 +118,11 @@
           </tbody>
         </table>
       </div>
+      <!-- TABLA end -->
     </div>
     
     
-  <!-- Modal -->
+  <!-- VENTANA EMERGENTE (PAUSAS) - Esta es la ventana emergente para que el usuario especifique la pausa, va fuera del content_sidebar -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content" >
@@ -143,7 +146,7 @@
       </div>
     </div>
   </div>
-  <!-- Modal end-->
+  <!-- VENTANA EMERGENTE (PAUSAS) end-->
 
   <script src="../Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/js/popper.min.js"></script>
     <script src="../User_layout/index.js"></script>
