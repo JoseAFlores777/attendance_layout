@@ -169,6 +169,19 @@ margin-left: 20px;
     font-size: 14px;
     opacity: 0.8;
   }
+
+/* ultimos agregados */
+.containerAlerts{
+  position: absolute;
+  z-index: 1;
+  margin-top: 1%;
+}
+
+
+
+
+
+
   
   /* Responsive CSS */
   

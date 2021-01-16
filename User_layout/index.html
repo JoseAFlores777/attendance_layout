@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    
   </head>
   <body>
+
+
 
     <input type="checkbox" id="check_sidebar">
     <!--header area start-->
@@ -31,6 +33,8 @@
       </div>
       
     </header>
+
+
     <!--header area end-->
     <!--mobile navigation bar start-->
     <div class="mobile_nav_sidebar">
@@ -56,7 +60,7 @@
         <img src="../assets/img/otros/Foto_Perfil.png" class="profile_image_sidebar" alt="">
         <h4>José Adolfo</h4>
       </div>
-      <a id="item_sidebar" href="#"><i class="fas fa-tachometer-alt" data-toggle="tooltip" data-placement="right" title="My Dashboard" ></i><span>My Dashboard</span></a>
+      <a id="item_sidebar" href="#" ><i class="fas fa-tachometer-alt" data-toggle="tooltip" data-placement="right" title="My Dashboard" ></i><span>My Dashboard</span></a>
       <a id="item_sidebar" href="#"><i class="fas fa-users" data-toggle="tooltip" data-placement="right" title="Employees"></i><span>Employees</span></a>
       <a id="item_sidebar" href="#"><i class="fas fa-tasks" data-toggle="tooltip" data-placement="right" title="Tasks"></i><span>Tasks</span></a>
       <a id="item_sidebar" href="#"><i class="fas fa-map-marker-alt" data-toggle="tooltip" data-placement="right" title="Monitoring"></i><span>Monitoring</span></a>
@@ -65,13 +69,15 @@
     <!--sidebar end-->
 
 
+
     <div class="content_sidebar">
       <div class="container">
+
         <div class="row">
           <div class="col-12">
             <div class="card text-center">
               <div class="card-header">
-                <h1 class="text-primary" style="color:#346997 !important;" >Start your workday!</h1>
+                <h1 id="Crono_Timer" class="text-primary" style="color:#346997 !important;" >Start your workday!</h1>
               </div>
               <div class="card-body">
                 <div class="date_crono">
@@ -83,24 +89,66 @@
                       <a id="btn_start" href="#" class="btn btn-success">Start</a>
                   </div>
                   <div class="btn2_crono">
-                    <a  id="btn_pause" href="#" class="btn btn-warning col-md-2">Pause</a>
+                    <!-- <a  id="btn_pause" href="#" class="btn btn-warning col-md-2">Pause</a>
                     <a id="btn_restart" href="#" class="btn btn-primary col-md-2">Restart</a>
-                    <a id="btn_finish" href="#" class="btn btn-danger col-md-2"> Finish day</a>
-
-
+                    <a id="btn_finish" href="#" class="btn btn-danger col-md-2"> Finish day</a> -->
+                    <a  id="btn_pause" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></a>
+                    <a id="btn_restart"></a>
+                    <a id="btn_finish" ></a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
- 
+        </div>
+      </div>
+      <div class="container">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col" >Action</th>
+              <th scope="col" >Duration</th>
+              <th scope="col" >Description</th>
+            </tr>
+          </thead>
+          <tbody id="tbody_actions">
+<!-- <tr><th scope="row">classe</th><td>asd</td><td>asd</td></tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h2 class="modal-title text-center" id="staticBackdropLabel">What will you do?</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" >
+            <div class="d-grid gap-2">
+
+                    <button id="btn_pause_breakfast" class="btn btn-primary" data-bs-dismiss="modal" ><h4><i class="fas fa-coffee" ></i> Breakfast</h4></button> 
+                    <button id="btn_pause_lunch" class="btn btn-primary" data-bs-dismiss="modal"><h4><i class="fas fa-utensils"></i> Lunch</h4></button>
+                    <button id="btn_pause_dinner" class="btn btn-primary" data-bs-dismiss="modal" ><h4><i class="fas fa-hamburger"></i>  Dinner</h4></button> 
+                    <button id="btn_pause_other" class="btn btn-primary" data-bs-dismiss="modal" ><h4><i class="fas fa-user-clock"></i>  Other</h4></button> 
+            </div>        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <!-- <button type="button" class="btn btn-primary">Understood</button> -->
         </div>
       </div>
     </div>
+  </div>
+  <!-- Modal end-->
 
-
+  <script src="../Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/js/popper.min.js"></script>
     <script src="../User_layout/index.js"></script>
     <script src="../Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/js/bootstrap.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
    
     
 

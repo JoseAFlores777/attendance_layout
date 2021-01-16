@@ -2,7 +2,7 @@
 
 
 $(document).ready(function () {
-   $(".btn2_crono").hide("true");
+  //  $(".btn2_crono").hide("true");
    
 
 
@@ -35,10 +35,11 @@ $(document).ready(function () {
       minuto= 0;
       segundo= 0;
       des = '';
-      constructor() {
+      constructor(p_des) {
         this.hora = 0;
         this.minuto = 0;
         this.segundo = 0;
+        this.des = p_des;
       }
 
       set setHora(hora) {
@@ -69,7 +70,7 @@ $(document).ready(function () {
   let pausas = [];
   let pausaInterval = 0;
    var WorkInterval =0;
-  let workTime = new Time();
+  let workTime = new Time('WorkTime');
   let pauseTime;
 
 function Conteo(Time,p_seg,p_min,p_hr) {
@@ -99,34 +100,79 @@ Time.setHora = p_hr;
 
 
 
-$("#btn_start").click(function(){
+$('#btn_start').click(function(e){
+  e.preventDefault();
+  $('#Crono_Timer').text("My workday");
+  $("#btn_restart").hide("true");
+  $("#btn_pause").text('Pause');
+  $("#btn_pause").addClass('btn btn-warning col-md-2');
+  $("#btn_restart").text('Keep Working!');
+  $("#btn_restart").addClass('btn btn-primary col-md-2');
+  $("#btn_finish").text('Finish Day');
+  $("#btn_finish").addClass('btn btn-danger col-md-2');
 
   $(this).parent().addClass('active-btn');
   $(this).hide("true");
-  $(".btn2_crono").show("true");
-  $("#btn_restart").hide("true");
-  // WorkInterval = setInterval(Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora), 1000);
 
   WorkInterval = setInterval(() => {
     Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora)
   }, 1000);
 
-
+  return false;
 });
-
-  $('#btn_pause').click(function () {
+  
+  function startPause(des) {
     clearInterval(WorkInterval);
+    
+    
     $("#btn_restart").show("true");
     $("#btn_pause").hide("true");
-    pauseTime = new Time();
+    pauseTime = new Time(des);
+    
     pausaInterval =setInterval(() => {
       Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora)
     }, 1000);
-     pausas.push(pauseTime);
+    pausas.push(pauseTime);
+    // $("#staticBackdrop").hide("true");
+    
+  }
+
+  // $('#btn_pause').click(function () {
+  //   clearInterval(WorkInterval);
+    
+    
+  //   $("#btn_restart").show("true");
+  //   $("#btn_pause").hide("true");
+  //   pauseTime = new Time();
+  //   pausaInterval =setInterval(() => {
+  //     Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora)
+  //   }, 1000);
+  //    pausas.push(pauseTime);
+  // });
+
+  $('#btn_pause_breakfast').click(function () {
+    startPause('breakfast')
+    $('#Crono_Timer').text("Enjoy your breakfast!");
+
+  });
+  $('#btn_pause_lunch').click(function () {
+    startPause('Lunch')
+    $('#Crono_Timer').text("Bon appetit!");
+  });
+  $('#btn_pause_dinner').click(function () {
+    startPause('Dinner')
+    $('#Crono_Timer').text("Enjoy your dinner!");
+  });
+  $('#btn_pause_other').click(function () {
+    startPause('Other')
+    $('#Crono_Timer').text("Don't be late!");
   });
 
 
   $('#btn_restart').click(function () {
+    $('#Crono_Timer').text("My workday");
+    $('#tbody_actions').append(`<tr><th scope="row">Pause</th><td>${pauseTime.getDuracion}</td><td>${pauseTime.getDes}</td></tr>`);
+    
     clearInterval(pausaInterval);
     $("#btn_restart").hide("true");
     $("#btn_pause").show("true");
@@ -138,6 +184,7 @@ $("#btn_start").click(function(){
   });
 
   $('#btn_finish').click(function () {
+    swal('Well Done!!', 'Its all', 'success');
     clearInterval(pausaInterval);
     clearInterval(WorkInterval);
     $(".btn2_crono").hide("true");
@@ -149,12 +196,13 @@ $("#btn_start").click(function(){
     console.log(workTime.getDuracion);
 
     for (let tipo of pausas) {
-      console.log(tipo.getDuracion);
+      console.log(tipo.getDuracion );
     }
+
+    console.log(workTime);
+    console.log(pausas);
     //=====================================================
 
-    workTime
-    pausas = null;
 
     // console.log(workTime.getDuracion);
 
