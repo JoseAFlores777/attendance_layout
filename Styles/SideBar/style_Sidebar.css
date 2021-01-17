@@ -32,7 +32,9 @@
 
 
   
-  .sidebar2{
+
+/* corregido por Joche y orlin */
+  .sidebar2 {
     z-index: 1;
     top: 0;
     background: #346997;
@@ -41,11 +43,15 @@
     position: fixed;
     left: 0;
     width: 250px;
-    height: calc(100% - 9%);
+    height: calc(100% - 5%);
     transition: 0.5s;
     transition-property: left;
     overflow-y: auto;
+    overflow-x: hidden;
   }
+
+
+
   #sidebar2_btn{
     color: #ffffff;
     margin-left: 10px;
