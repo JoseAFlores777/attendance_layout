@@ -2,6 +2,7 @@
 
 
 $(document).ready(function () {
+  'use strict';
   //Muestra el sidebar en la version mobile
   $(".nav_btn_sidebar").click(function () {
     $(".mobile_nav_items_sidebar").toggleClass("active");
@@ -77,7 +78,7 @@ $(document).ready(function () {
   }
 
   //Variables globales
-  let pausas = [];
+  let TimeLine = [];
   let pausaInterval = 0;
   var WorkInterval = 0;
   let workTime = new Time("WorkTime");
@@ -130,7 +131,7 @@ $(document).ready(function () {
     return false;
   });
 
-  //Esta Funcion inicia el contador de la pausa e introduce una nueva pausa en el arreglo de pausas
+  //Esta Funcion inicia el contador de la pausa e introduce una nueva pausa en el arreglo de TimeLine
   function startPause(des) {
     clearInterval(WorkInterval);
 
@@ -141,14 +142,21 @@ $(document).ready(function () {
     pausaInterval = setInterval(() => {
       Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
     }, 1000);
-    pausas.push(pauseTime);
+    TimeLine.push(pauseTime);
+  }
+
+  function AddRowToTable(action, Time) {
+    let Ac = (action === 1) ? 'Pause' : 'Work';
+    $("#tbody_actions").append(
+      `<tr><th scope="row">${Ac}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td></tr>`
+    );
   }
 
   // Evento al selecccionar que la pausa fue el desayuno
   $("#btn_pause_breakfast").click(function () {
     startPause("breakfast");
     $("#Crono_Timer").text("Enjoy your breakfast!");
-    $("#")
+    
   });
   // Evento al selecccionar que la pausa fue el almuezo
   $("#btn_pause_lunch").click(function () {
@@ -169,9 +177,9 @@ $(document).ready(function () {
   // Evento al al reanudar el trabajo luego de la pausa
   $("#btn_restart").click(function () {
     $("#Crono_Timer").text("My workday");
-    $("#tbody_actions").append(
-      `<tr><th scope="row">Pause</th><td>${pauseTime.getDuracion}</td><td>${pauseTime.getDes}</td></tr>`
-    );
+
+    AddRowToTable(1, pauseTime);
+
     clearInterval(pausaInterval);
     $("#btn_restart").hide("true");
     $("#btn_pause").show("true");
@@ -188,19 +196,20 @@ $(document).ready(function () {
     clearInterval(pausaInterval);
     clearInterval(WorkInterval);
     $(".btn2_crono").hide("true");
-
     $("#crono").text("Is all for today!");
+    TimeLine.push(workTime);
 
+    AddRowToTable(2, workTime);
     // =======Aqui se hara la entrega de los timepos al servidor=======
 
     console.log(workTime.getDuracion);
 
-    for (let tipo of pausas) {
+    for (let tipo of TimeLine) {
       console.log(tipo.getDuracion);
     }
 
     console.log(workTime);
-    console.log(pausas);
+    console.log(TimeLine);
     //=====================================================
   });
 
