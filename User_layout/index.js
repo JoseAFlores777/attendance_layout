@@ -13,7 +13,7 @@ $(document).ready(function () {
 
   //muestra la fecha y la hora actual en el cronometro
 
-  const event = new Date();
+  const Date_ac = new Date();
 
   const options = {
     weekday: "long",
@@ -22,12 +22,18 @@ $(document).ready(function () {
     day: "numeric",
   };
 
-  $(".date_crono").html(
-    `<h5 class="text-muted"> ${event.toLocaleDateString(
-      "en-US",
-      options
-    )} </h5>`
-  );
+  getDate();
+  
+  function getDate() {
+    $(".date_crono").html(
+      `<h5 class="text-muted"> ${Date_ac.toLocaleDateString(
+        "en-US",
+        options
+      )} </h5>`
+    );
+   
+  }
+
 
   //=============================CRONÓMETO=============================
 
@@ -84,6 +90,7 @@ $(document).ready(function () {
     if (p_seg >= 60) {
       p_seg = 0;
       p_min++;
+      getDate();
     }
     // Minutos
     if (p_min >= 60) {
@@ -94,7 +101,7 @@ $(document).ready(function () {
     Time.setSegundo = p_seg;
     Time.setMinuto = p_min;
     Time.setHora = p_hr;
-
+    
     return $("#crono").text(
       `${p_hr < 10 ? "0" + p_hr : p_hr}:${p_min < 10 ? "0" + p_min : p_min}:
     ${p_seg < 10 ? "0" + p_seg : p_seg}`
