@@ -35,7 +35,29 @@ $(document).ready(function () {
    
   }
 
+  setTimeout(() => {
+    getDate();
+  }, 59000);
 
+
+  function checkTime(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
+  
+  
+
+  function current_time() {
+
+    var today = new Date(),
+    h = checkTime(today.getHours()),
+    m = checkTime(today.getMinutes()),
+    s = checkTime(today.getSeconds());
+    // add a zero in front of numbers<10
+   return  h + ":" + m + ":" + s;
+  }
   //=============================CRONÓMETO=============================
 
   //Creacion de la clase Tiempo, la cual al instanciarse guardará
@@ -44,12 +66,17 @@ $(document).ready(function () {
     hora = 0;
     minuto = 0;
     segundo = 0;
+    Type = "";
     des = "";
+    Date_Inicio = "";
+    Date_Fin = "";
     constructor(p_des) {
       this.hora = 0;
       this.minuto = 0;
       this.segundo = 0;
       this.des = p_des;
+      this.Type = "";
+     
     }
 
     set setHora(hora) {
@@ -65,6 +92,26 @@ $(document).ready(function () {
     set setDes(des) {
       this.des = des;
     }
+    
+    set set_type(p_type) {
+      this.Type = (p_type === 1) ? "Pause" : (p_type === 2) ? "Work" : "";
+    }
+    
+    set setH_Inicio(p_Inicio) { 
+      this.hora_inicio = p_Inicio;
+    }
+    set setH_Fin(p_Fin) { 
+      this.hora_final = p_Fin;
+    }
+    get getSeg() {
+      return this.segundo;
+    }
+    get getMin() {
+      return this.minuto;
+    }
+    get getHr() {
+      return this.hora;
+    }
 
     get getDuracion() {
       return `${this.hora < 10 ? "0" + this.hora : this.hora}:${
@@ -75,6 +122,16 @@ $(document).ready(function () {
     get getDes() {
       return this.des;
     }
+    get get_type() {
+      return this.Type;
+    }
+    get getH_Inicio() {
+      return this.hora_inicio;
+    }
+    get getH_Fin() {
+      return this.hora_final;
+    }
+
   }
 
   //Variables globales
@@ -82,7 +139,12 @@ $(document).ready(function () {
   let pausaInterval = 0;
   var WorkInterval = 0;
   let workTime = new Time("WorkTime");
+  workTime.set_type = 2;
   let pauseTime;
+
+  //Variablea que me ayudaran a calcular el timepo inactivo
+  let t1 = new Date();
+  let t2 = new Date();
 
   //Esta funcion  hace el trabajo de un reloj, incrementa el valor de los seg,min y hrs en un loop
   function Conteo(Time, p_seg, p_min, p_hr) {
@@ -123,7 +185,7 @@ $(document).ready(function () {
 
     $(this).parent().addClass("active-btn");
     $(this).hide("true");
-
+    workTime.setH_Inicio = current_time();
     WorkInterval = setInterval(() => {
       Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
     }, 1000);
@@ -134,21 +196,26 @@ $(document).ready(function () {
   //Esta Funcion inicia el contador de la pausa e introduce una nueva pausa en el arreglo de TimeLine
   function startPause(des) {
     clearInterval(WorkInterval);
-
     $("#btn_restart").show("true");
     $("#btn_pause").hide("true");
     pauseTime = new Time(des);
-
+    workTime.setH_Fin = current_time();
+    pauseTime.setH_Inicio = current_time();
+    pauseTime.set_type = 1;
+ 
+    
     pausaInterval = setInterval(() => {
       Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
     }, 1000);
+    
     TimeLine.push(pauseTime);
   }
 
-  function AddRowToTable(action, Time) {
-    let Ac = (action === 1) ? 'Pause' : 'Work';
+  function AddRowToTable(Time) {
     $("#tbody_actions").append(
-      `<tr><th scope="row">${Ac}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td></tr>`
+      Time.get_type == "Work"
+        ? `<tr class="table-primary"><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio}</th><th scope="row">${Time.getH_Fin}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td></tr>`
+        : `<tr><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio}</th><th scope="row">${Time.getH_Fin}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td></tr>`
     );
   }
 
@@ -177,8 +244,8 @@ $(document).ready(function () {
   // Evento al al reanudar el trabajo luego de la pausa
   $("#btn_restart").click(function () {
     $("#Crono_Timer").text("My workday");
-
-    AddRowToTable(1, pauseTime);
+    pauseTime.setH_Fin = current_time();
+    AddRowToTable(pauseTime);
 
     clearInterval(pausaInterval);
     $("#btn_restart").hide("true");
@@ -192,14 +259,20 @@ $(document).ready(function () {
   $("#btn_finish").click(function () {
     // para que la funcion swal se ejecute bien, se necesita importar
     //el CDN - <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    if ($('#btn_restart').is(':visible')) {
+      pauseTime.setH_Fin = current_time();
+      AddRowToTable(pauseTime);
+    } else { 
+      workTime.setH_Fin = current_time();
+    }
     swal("Well Done!!", "Its all", "success");
     clearInterval(pausaInterval);
     clearInterval(WorkInterval);
     $(".btn2_crono").hide("true");
     $("#crono").text("Is all for today!");
     TimeLine.push(workTime);
-
-    AddRowToTable(2, workTime);
+    
+    AddRowToTable(workTime);
     // =======Aqui se hara la entrega de los timepos al servidor=======
 
     console.log(workTime.getDuracion);
@@ -207,11 +280,41 @@ $(document).ready(function () {
     for (let tipo of TimeLine) {
       console.log(tipo.getDuracion);
     }
-
+    console.log(current_time());
     console.log(workTime);
     console.log(TimeLine);
-    //=====================================================
+
   });
+
+
+
+  //Funcion que Calcula el timpo que ha pasado desde que cerro la pestaña o refrescó
+
+  function Calculo_TimepoInactivo(Time,hora_actual){
+
+    var hora1 = Time.getH_Fin.split(":"),
+        hora2 = hora_actual.split(":");
+     
+    t1.setHours(hora1[0], hora1[1], hora1[2]);
+    t2.setHours(hora2[0], hora2[1], hora2[2]);
+     
+    //Aquí Se hace el calculo de el timepo que estuvo cerrada la pagina
+    t2.setHours(t2.getHours() - t1.getHours(), t2.getMinutes() - t1.getMinutes(), t2.getSeconds() - t1.getSeconds());
+
+    //Aqui se le agrega el tiempo que estuvo fuera de la pagina + el tiempo que llevaba
+    t1.setHours(Time.getHr + t2.getHours(), Time.getMin + t2.getMinutes(), Time.getSeg + t2.getSeconds());
+
+    
+    Time.setSegundo = t1.getSeconds();
+    Time.setMinuto = t1.getMinutes();
+    Time.setHora = t1.getHours();
+    
+
+    return Time;
+
+  }
+  
+
 
   //=============================FIN DEL CRONÓMETRO=============================
 });
