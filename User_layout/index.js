@@ -163,12 +163,12 @@ $(document).ready(function () {
   //Variables globales
   let TimeLine =[];
   import_LStorage(TimeLine);
-  let pausaInterval = 0;
+  var pausaInterval = 0;
   var WorkInterval = 0;
-  let workTime = new Time("WorkTime");
-  workTime.set_type = 2;
+  var workTime;
+
   
-  let pauseTime;
+  var pauseTime;
 
   
 
@@ -220,6 +220,8 @@ $(document).ready(function () {
 
     $(this).parent().addClass("active-btn");
     $(this).hide("true");
+    workTime = new Time("WorkTime");
+    workTime.set_type = 2;
     TimeLine.push(workTime);
     workTime.setH_Inicio = current_time();
     workTime.setN_Event = ++Evento;
@@ -387,17 +389,20 @@ $(document).ready(function () {
   function still_counting(Time) {
     Time = Calculo_TiempoInactivo(Time, current_time());
     $("#btn_start").hide(true);
+    btn_create();
+    $("#Crono_Timer").text("My workday");
     if (Time.get_type === "Work") {
       $("#btn_restart").hide(true);
       $("#btn_pause").show(true);
+      workTime = Time;
       WorkInterval = setInterval(() => {
-        Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
+        Conteo(Time, Time.segundo, Time.minuto, Time.hora);
         save_LStorage(TimeLine);
       }, 1000);
     } else if (Time.get_type === "Pause") {
       $("#btn_pause").hide(true);
       $("#btn_restart").show(true);
-
+      pauseTime = Time;
       pausaInterval = setInterval(() => {
         Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
         save_LStorage(TimeLine);
@@ -427,11 +432,11 @@ function save_LStorage(Timeline) {
     TimeLine = TimeLine.map(obj => Time.fromJson(obj));
     // TimeLine = TimeLine.map( Time.fromJson );
     if (TimeLine.length > 0) {
-        still_counting(Search_lastEvt(Timeline));
+             still_counting(Search_lastEvt(Timeline));
       
     }
     console.log({ TimeLine });
-    // add_AlltoTab();
+     add_AlltoTab();
   }
 
 
