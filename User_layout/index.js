@@ -162,19 +162,19 @@ $(document).ready(function () {
 
   //Variables globales
   let TimeLine =[];
+  //Esta variable indicará en que evento se quedó el programa antes de cerrarlo
+   var Evento =0;
   import_LStorage(TimeLine);
-  var pausaInterval = 0;
-  var WorkInterval = 0;
+  var pausaInterval;
+  var WorkInterval;
   var workTime;
-
   
   var pauseTime;
 
   
 
 
-  //Esta variable indicará en que evento se quedó el programa antes de cerrarlo
-  let Evento = 0;
+ 
 
   //Esta funcion  hace el trabajo de un reloj, incrementa el valor de los seg,min y hrs en un loop
   function Conteo(Time, p_seg, p_min, p_hr) {
@@ -228,6 +228,7 @@ $(document).ready(function () {
     WorkInterval = setInterval(() => {
       Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
       save_LStorage(TimeLine);
+      workTime.setH_Fin = current_time();
     }, 1000);
 
     return false;
@@ -248,6 +249,7 @@ $(document).ready(function () {
     pausaInterval = setInterval(() => {
       Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
       save_LStorage(TimeLine);
+      pauseTime.setH_Fin = current_time();
     }, 1000);
     
     TimeLine.push(pauseTime);
@@ -296,6 +298,7 @@ $(document).ready(function () {
     WorkInterval = setInterval(() => {
       Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
       save_LStorage(TimeLine);
+      workTime.setH_Fin = current_time();
     }, 1000);
   });
 
@@ -320,14 +323,14 @@ $(document).ready(function () {
     AddRowToTable(workTime);
     // =======Aqui se hara la entrega de los timepos al servidor=======
 
-    console.log(workTime.getDuracion);
+    // console.log(workTime.getDuracion);
 
-    for (let tipo of TimeLine) {
-      console.log(tipo.getDuracion);
-    }
-    console.log(current_time());
-    console.log(workTime);
-    console.log(TimeLine);
+    // for (let tipo of TimeLine) {
+    //   console.log(tipo.getDuracion);
+    // }
+    // console.log(current_time());
+    // console.log(workTime);
+    // console.log(TimeLine);
 
   });
 
@@ -339,8 +342,7 @@ $(document).ready(function () {
 
     var hora1 = Time.getH_Fin.split(":");
      var  hora2 = hora_actual.split(":");
-    // var hora1 = Time.getH_Fin.split(":");
-    //  var  hora2 = hora_actual.split(":");
+  
     let t1 = new Date();
     let t2 = new Date();
     t1.setHours(hora1[0], hora1[1], hora1[2]);
@@ -382,6 +384,8 @@ $(document).ready(function () {
       }
       
     }
+    
+    Evento = TimeLine[tmp].getN_Event;
     return TimeLine[tmp];
   }
   
@@ -390,14 +394,15 @@ $(document).ready(function () {
     Time = Calculo_TiempoInactivo(Time, current_time());
     $("#btn_start").hide(true);
     btn_create();
-    $("#Crono_Timer").text("My workday");
     if (Time.get_type === "Work") {
+      $("#Crono_Timer").text("My workday");
       $("#btn_restart").hide(true);
       $("#btn_pause").show(true);
       workTime = Time;
       WorkInterval = setInterval(() => {
         Conteo(Time, Time.segundo, Time.minuto, Time.hora);
         save_LStorage(TimeLine);
+        Time.setH_Fin = current_time();
       }, 1000);
     } else if (Time.get_type === "Pause") {
       $("#btn_pause").hide(true);
@@ -406,6 +411,7 @@ $(document).ready(function () {
       pausaInterval = setInterval(() => {
         Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
         save_LStorage(TimeLine);
+        Time.setH_Fin = current_time();
       }, 1000);
     }
     add_AlltoTab();
@@ -432,11 +438,11 @@ function save_LStorage(Timeline) {
     TimeLine = TimeLine.map(obj => Time.fromJson(obj));
     // TimeLine = TimeLine.map( Time.fromJson );
     if (TimeLine.length > 0) {
-             still_counting(Search_lastEvt(Timeline));
+               still_counting(Search_lastEvt(Timeline));
       
     }
     console.log({ TimeLine });
-     add_AlltoTab();
+    //  add_AlltoTab();
   }
 
 
