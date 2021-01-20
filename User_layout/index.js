@@ -77,7 +77,9 @@ $(document).ready(function () {
       tempTime.Type        = Type;
       tempTime.Date_Inicio = Date_Inicio;
       tempTime.Date_Fin    = Date_Fin;
-      tempTime.Num_Event   = Num_Event;
+      tempTime.Num_Event = Num_Event;
+      
+      return tempTime;
     }
 
     hora = 0;
@@ -165,12 +167,11 @@ $(document).ready(function () {
   var WorkInterval = 0;
   let workTime = new Time("WorkTime");
   workTime.set_type = 2;
-  TimeLine.push(workTime);
+  
   let pauseTime;
 
-  //Variablea que me ayudaran a calcular el timepo inactivo
-  let t1 = new Date();
-  let t2 = new Date();
+  
+
 
   //Esta variable indicará en que evento se quedó el programa antes de cerrarlo
   let Evento = 0;
@@ -219,6 +220,7 @@ $(document).ready(function () {
 
     $(this).parent().addClass("active-btn");
     $(this).hide("true");
+    TimeLine.push(workTime);
     workTime.setH_Inicio = current_time();
     workTime.setN_Event = ++Evento;
     WorkInterval = setInterval(() => {
@@ -337,7 +339,8 @@ $(document).ready(function () {
      var  hora2 = hora_actual.split(":");
     // var hora1 = Time.getH_Fin.split(":");
     //  var  hora2 = hora_actual.split(":");
-     
+    let t1 = new Date();
+    let t2 = new Date();
     t1.setHours(hora1[0], hora1[1], hora1[2]);
     t2.setHours(hora2[0], hora2[1], hora2[2]);
      
@@ -358,7 +361,7 @@ $(document).ready(function () {
   }
 
   //rellena la tabla con los datos en los que se quedó
-  function add_toTab() { 
+  function add_AlltoTab() { 
     for (let index = 0; index < TimeLine.length; index++) {
       AddRowToTable(TimeLine[index]);
       
@@ -382,16 +385,16 @@ $(document).ready(function () {
   
   //Esta funcion hace que al recargar la pagina continue por donde se quedo
   function still_counting(Time) {
-    Calculo_TiempoInactivo(Time,current_time())
-    btn_create();
+    Time = Calculo_TiempoInactivo(Time, current_time());
     $("#btn_start").hide(true);
-    if (Time.get_type == "Work") {
+    if (Time.get_type === "Work") {
       $("#btn_restart").hide(true);
+      $("#btn_pause").show(true);
       WorkInterval = setInterval(() => {
         Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
         save_LStorage(TimeLine);
       }, 1000);
-    } else if (Time.get_type == "Pause") {
+    } else if (Time.get_type === "Pause") {
       $("#btn_pause").hide(true);
       $("#btn_restart").show(true);
 
@@ -400,7 +403,7 @@ $(document).ready(function () {
         save_LStorage(TimeLine);
       }, 1000);
     }
-    add_toTab();
+    add_AlltoTab();
   }
 
 
@@ -410,15 +413,25 @@ function save_LStorage(Timeline) {
   localStorage.setItem('Time', JSON.stringify(Timeline));
 }
   
+  
   function import_LStorage(Timeline) {
-     TimeLine = (localStorage.getItem("Time"))
-      ? JSON.parse(localStorage.getItem("Time"))
-      : [];
+    //  TimeLine = (localStorage.getItem("Time"))
+    //   ? JSON.parse(localStorage.getItem("Time"))
+    //    : [];
+       TimeLine = ( localStorage.getItem('Time') )
+       ? JSON.parse( localStorage.getItem('Time') )
+       : [];
+
+      //  TimeLine = TimeLine.map( Time.fromJson );
 
     TimeLine = TimeLine.map(obj => Time.fromJson(obj));
-    
-    // still_counting(Search_lastEvt(Timeline));
-    // console.log('Time', TimeLine.Time);
+    // TimeLine = TimeLine.map( Time.fromJson );
+    if (TimeLine.length > 0) {
+        still_counting(Search_lastEvt(Timeline));
+      
+    }
+    console.log({ TimeLine });
+    // add_AlltoTab();
   }
 
 
