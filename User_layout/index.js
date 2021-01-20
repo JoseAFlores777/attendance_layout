@@ -161,15 +161,15 @@ $(document).ready(function () {
   }
 
   //Variables globales
-  let TimeLine =[];
+  var TimeLine =[];
   //Esta variable indicará en que evento se quedó el programa antes de cerrarlo
    var Evento =0;
-  import_LStorage(TimeLine);
-  var pausaInterval;
-  var WorkInterval;
-  var workTime;
-  
-  var pauseTime;
+   var pausaInterval;
+   var WorkInterval;
+   var workTime;
+   
+   var pauseTime;
+   import_LStorage();
 
   
 
@@ -244,8 +244,6 @@ $(document).ready(function () {
     pauseTime.setH_Inicio = current_time();
     pauseTime.setN_Event = ++Evento;
     pauseTime.set_type = 1;
- 
-    
     pausaInterval = setInterval(() => {
       Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
       save_LStorage(TimeLine);
@@ -295,6 +293,7 @@ $(document).ready(function () {
     $("#btn_restart").hide("true");
     $("#btn_pause").show("true");
     workTime.setN_Event = ++Evento;
+    
     WorkInterval = setInterval(() => {
       Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
       save_LStorage(TimeLine);
@@ -321,7 +320,14 @@ $(document).ready(function () {
     // TimeLine.push(workTime);
     
     AddRowToTable(workTime);
-    // =======Aqui se hara la entrega de los timepos al servidor=======
+    // =======Aqui se hara la entrega de los timepos a la BD=======
+
+    //pRIMERO SE GUARADARÁ EN LA BAD Y DESPUES SE ELIMINARA DEL LOCALSTORAGE
+
+    //1.- Guardar en BD (Json)
+    
+    //2.- Eliminar Item del Local Storage
+    localStorage.removeItem("Time");
 
     // console.log(workTime.getDuracion);
 
@@ -374,12 +380,12 @@ $(document).ready(function () {
   }
 
   //Busca el ultimo evento
-  function Search_lastEvt(Timeline) {
+  function Search_lastEvt(TimeLine) {
     let mayor = 0;
       let tmp = 0;
-    for (let index = 0; index < Timeline.length; index++) {
-      if (mayor < Timeline[index].getN_Event) {
-        mayor = Timeline[index].getN_Event;
+    for (let index = 0; index < TimeLine.length; index++) {
+      if (mayor < TimeLine[index].getN_Event) {
+        mayor = TimeLine[index].getN_Event;
         tmp = index;
       }
       
@@ -392,26 +398,27 @@ $(document).ready(function () {
   //Esta funcion hace que al recargar la pagina continue por donde se quedo
   function still_counting(Time) {
     Time = Calculo_TiempoInactivo(Time, current_time());
-    $("#btn_start").hide(true);
+    $("#btn_start").hide("true");
     btn_create();
     if (Time.get_type === "Work") {
       $("#Crono_Timer").text("My workday");
-      $("#btn_restart").hide(true);
-      $("#btn_pause").show(true);
+      $("#btn_restart").hide("true");
+      $("#btn_pause").show("true");
       workTime = Time;
       WorkInterval = setInterval(() => {
-        Conteo(Time, Time.segundo, Time.minuto, Time.hora);
+        Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
         save_LStorage(TimeLine);
-        Time.setH_Fin = current_time();
+        workTime.setH_Fin = current_time();
       }, 1000);
     } else if (Time.get_type === "Pause") {
-      $("#btn_pause").hide(true);
-      $("#btn_restart").show(true);
+      $("#btn_pause").hide("true");
+      $("#btn_restart").show("true");
       pauseTime = Time;
+      workTime = TimeLine[0];
       pausaInterval = setInterval(() => {
         Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
         save_LStorage(TimeLine);
-        Time.setH_Fin = current_time();
+        pauseTime.setH_Fin = current_time();
       }, 1000);
     }
     add_AlltoTab();
@@ -420,12 +427,12 @@ $(document).ready(function () {
 
   //=============================FIN DEL CRONÓMETRO=============================
 
-function save_LStorage(Timeline) {
-  localStorage.setItem('Time', JSON.stringify(Timeline));
+function save_LStorage() {
+  localStorage.setItem('Time', JSON.stringify(TimeLine));
 }
   
   
-  function import_LStorage(Timeline) {
+  function import_LStorage() {
     //  TimeLine = (localStorage.getItem("Time"))
     //   ? JSON.parse(localStorage.getItem("Time"))
     //    : [];
@@ -438,7 +445,7 @@ function save_LStorage(Timeline) {
     TimeLine = TimeLine.map(obj => Time.fromJson(obj));
     // TimeLine = TimeLine.map( Time.fromJson );
     if (TimeLine.length > 0) {
-               still_counting(Search_lastEvt(Timeline));
+              still_counting(Search_lastEvt(TimeLine));
       
     }
     console.log({ TimeLine });
