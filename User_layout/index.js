@@ -215,7 +215,7 @@ $(document).ready(function () {
   // Evento inicializa el contador de horas de trabajo
   $("#btn_start").click(function (e) {
     e.preventDefault();
-    $("#Crono_Timer").text("My workday");
+    $("#Crono_message").text("My workday");
     btn_create();
 
     $(this).parent().addClass("active-btn");
@@ -264,28 +264,28 @@ $(document).ready(function () {
   // Evento al selecccionar que la pausa fue el desayuno
   $("#btn_pause_breakfast").click(function () {
     startPause("breakfast");
-    $("#Crono_Timer").text("Enjoy your breakfast!");
+    $("#Crono_message").text("Enjoy your breakfast!");
     
   });
   // Evento al selecccionar que la pausa fue el almuezo
   $("#btn_pause_lunch").click(function () {
     startPause("Lunch");
-    $("#Crono_Timer").text("Bon appetit!");
+    $("#Crono_message").text("Bon appetit!");
   });
   // Evento al selecccionar que la pausa fue la cena
   $("#btn_pause_dinner").click(function () {
     startPause("Dinner");
-    $("#Crono_Timer").text("Enjoy your dinner!");
+    $("#Crono_message").text("Enjoy your dinner!");
   });
   // Evento al selecccionar que la pausa fue Otro
   $("#btn_pause_other").click(function () {
     startPause("Other");
-    $("#Crono_Timer").text("Don't be late!");
+    $("#Crono_message").text("Don't be late!");
   });
 
   // Evento al al reanudar el trabajo luego de la pausa
   $("#btn_restart").click(function () {
-    $("#Crono_Timer").text("My workday");
+    $("#Crono_message").text("My workday");
     pauseTime.setH_Fin = current_time();
     AddRowToTable(pauseTime);
 
@@ -307,7 +307,7 @@ $(document).ready(function () {
     //el CDN - <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     if ($('#btn_restart').is(':visible')) {
       pauseTime.setH_Fin = current_time();
-      pauseTime.setN_Event = ++Evento;
+      //pauseTime.setN_Event = ++Evento;
       AddRowToTable(pauseTime);
     } else { 
       workTime.setH_Fin = current_time();
@@ -327,7 +327,7 @@ $(document).ready(function () {
     //1.- Guardar en BD (Json)
     
     //2.- Eliminar Item del Local Storage
-    localStorage.removeItem("Time");
+     localStorage.removeItem("Time");
 
     // console.log(workTime.getDuracion);
 
@@ -401,7 +401,7 @@ $(document).ready(function () {
     $("#btn_start").hide("true");
     btn_create();
     if (Time.get_type === "Work") {
-      $("#Crono_Timer").text("My workday");
+      $("#Crono_message").text("My workday");
       $("#btn_restart").hide("true");
       $("#btn_pause").show("true");
       workTime = Time;
@@ -413,6 +413,7 @@ $(document).ready(function () {
     } else if (Time.get_type === "Pause") {
       $("#btn_pause").hide("true");
       $("#btn_restart").show("true");
+      $("#Crono_message").text("Keep working!");
       pauseTime = Time;
       workTime = TimeLine[0];
       pausaInterval = setInterval(() => {
@@ -451,13 +452,6 @@ function save_LStorage() {
     console.log({ TimeLine });
     //  add_AlltoTab();
   }
-
-
-
-
-
-
-
 
 });
 
