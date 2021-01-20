@@ -116,10 +116,10 @@ $(document).ready(function () {
     }
     
     set setH_Inicio(p_Inicio) { 
-      this.hora_inicio = p_Inicio;
+      this.Date_Inicio = p_Inicio;
     }
     set setH_Fin(p_Fin) { 
-      this.hora_final = p_Fin;
+      this.Date_Fin = p_Fin;
     }
     set setN_Event(p_evt) { 
       this.Num_Event = p_evt;
@@ -147,10 +147,10 @@ $(document).ready(function () {
       return this.Type;
     }
     get getH_Inicio() {
-      return this.hora_inicio;
+      return this.Date_Inicio;
     }
     get getH_Fin() {
-      return this.hora_final;
+      return this.Date_Fin;
     }
     get getN_Event() {
       return this.Num_Event;
@@ -159,12 +159,13 @@ $(document).ready(function () {
   }
 
   //Variables globales
-  let TimeLine = [];
-  // import_LStorage();
+  let TimeLine =[];
+  import_LStorage(TimeLine);
   let pausaInterval = 0;
   var WorkInterval = 0;
   let workTime = new Time("WorkTime");
   workTime.set_type = 2;
+  TimeLine.push(workTime);
   let pauseTime;
 
   //Variablea que me ayudaran a calcular el timepo inactivo
@@ -192,11 +193,12 @@ $(document).ready(function () {
     Time.setSegundo = p_seg;
     Time.setMinuto = p_min;
     Time.setHora = p_hr;
-    
+     
     return $("#crono").text(
       `${p_hr < 10 ? "0" + p_hr : p_hr}:${p_min < 10 ? "0" + p_min : p_min}:
     ${p_seg < 10 ? "0" + p_seg : p_seg}`
     );
+    
   }
 
   function btn_create() {
@@ -221,6 +223,7 @@ $(document).ready(function () {
     workTime.setN_Event = ++Evento;
     WorkInterval = setInterval(() => {
       Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
+      save_LStorage(TimeLine);
     }, 1000);
 
     return false;
@@ -240,6 +243,7 @@ $(document).ready(function () {
     
     pausaInterval = setInterval(() => {
       Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
+      save_LStorage(TimeLine);
     }, 1000);
     
     TimeLine.push(pauseTime);
@@ -287,6 +291,7 @@ $(document).ready(function () {
     workTime.setN_Event = ++Evento;
     WorkInterval = setInterval(() => {
       Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
+      save_LStorage(TimeLine);
     }, 1000);
   });
 
@@ -306,7 +311,7 @@ $(document).ready(function () {
     clearInterval(WorkInterval);
     $(".btn2_crono").hide("true");
     $("#crono").text("Is all for today!");
-    TimeLine.push(workTime);
+    // TimeLine.push(workTime);
     
     AddRowToTable(workTime);
     // =======Aqui se hara la entrega de los timepos al servidor=======
@@ -326,10 +331,12 @@ $(document).ready(function () {
 
   //Funcion que Calcula el timpo que ha pasado desde que cerro la pestaña o refrescó
 
-  function Calculo_TimepoInactivo(Time,hora_actual){
+  function Calculo_TiempoInactivo(Time,hora_actual){
 
-    var hora1 = Time.getH_Fin.split(":"),
-        hora2 = hora_actual.split(":");
+    var hora1 = Time.getH_Fin.split(":");
+     var  hora2 = hora_actual.split(":");
+    // var hora1 = Time.getH_Fin.split(":");
+    //  var  hora2 = hora_actual.split(":");
      
     t1.setHours(hora1[0], hora1[1], hora1[2]);
     t2.setHours(hora2[0], hora2[1], hora2[2]);
@@ -350,6 +357,7 @@ $(document).ready(function () {
 
   }
 
+  //rellena la tabla con los datos en los que se quedó
   function add_toTab() { 
     for (let index = 0; index < TimeLine.length; index++) {
       AddRowToTable(TimeLine[index]);
@@ -358,8 +366,10 @@ $(document).ready(function () {
 
   }
 
+  //Busca el ultimo evento
   function Search_lastEvt(Timeline) {
-    let mayor = tmp = 0;
+    let mayor = 0;
+      let tmp = 0;
     for (let index = 0; index < Timeline.length; index++) {
       if (mayor < Timeline[index].getN_Event) {
         mayor = Timeline[index].getN_Event;
@@ -372,12 +382,14 @@ $(document).ready(function () {
   
   //Esta funcion hace que al recargar la pagina continue por donde se quedo
   function still_counting(Time) {
+    Calculo_TiempoInactivo(Time,current_time())
     btn_create();
     $("#btn_start").hide(true);
     if (Time.get_type == "Work") {
       $("#btn_restart").hide(true);
       WorkInterval = setInterval(() => {
         Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
+        save_LStorage(TimeLine);
       }, 1000);
     } else if (Time.get_type == "Pause") {
       $("#btn_pause").hide(true);
@@ -385,6 +397,7 @@ $(document).ready(function () {
 
       pausaInterval = setInterval(() => {
         Conteo(pauseTime, pauseTime.segundo, pauseTime.minuto, pauseTime.hora);
+        save_LStorage(TimeLine);
       }, 1000);
     }
     add_toTab();
@@ -393,19 +406,20 @@ $(document).ready(function () {
 
   //=============================FIN DEL CRONÓMETRO=============================
 
-function save_LStorage() {
-  localStorage('Time', JSON.stringify(Timeline));
+function save_LStorage(Timeline) {
+  localStorage.setItem('Time', JSON.stringify(Timeline));
 }
   
-  function import_LStorage() {
-  
-    TimeLine = localStorage.getItem("Time")
-               ? JSON.parse(localStorage.getItem("Time"))
-                : [];
-   
-    TimeLine = TimeLine.map(obj => TimeLine.fromJson(obj));
+  function import_LStorage(Timeline) {
+     TimeLine = (localStorage.getItem("Time"))
+      ? JSON.parse(localStorage.getItem("Time"))
+      : [];
 
-}
+    TimeLine = TimeLine.map(obj => Time.fromJson(obj));
+    
+    // still_counting(Search_lastEvt(Timeline));
+    // console.log('Time', TimeLine.Time);
+  }
 
 
 
