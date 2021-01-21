@@ -11,10 +11,7 @@ $(document).ready(function () {
     $(".mobile_nav_items_sidebar").toggleClass("active");
   });
 
-  //inicializa el etilo de los tooltip mediante el popper.
-  //necesario que esté importado <script src="../Styles/Bootstrap_themes/bootstrap-5.0.0-beta1-dist/js/popper.min.js"></script>
-  $('[data-toggle="tooltip"]').tooltip();
-
+ 
   //muestra la fecha y la hora actual en el cronometro
 
   const Date_ac = new Date();
@@ -26,8 +23,10 @@ $(document).ready(function () {
     day: "numeric",
   };
 
-  getDate();
   
+  /**
+   * Esta funcion devuelve la fecha en formato ingles de US
+   */
   function getDate() {
     $(".date_crono").html(
       `<h5 class="text-muted"> ${Date_ac.toLocaleDateString(
@@ -43,17 +42,25 @@ $(document).ready(function () {
   }, 59000);
 
 
-  function checkTime(i) {
-    if (i < 10) {
-      i = "0" + i;
-    }
+/**
+ * Esta funcion da formato a la hora
+ * colocando un 0 antes de aquellos 
+ * numeros menores a 10
+ * @param {number} i = hr,min o seg  
+ * @return {string} 
+ */
+  function checkTime(i) {  
+    if (i < 10)i = "0" + i;
     return i;
   }
   
   
-
+/**
+ * Esta funcion devuelve la hora actual en 
+ * un formato de HH:MM:SS
+ * @return {string} 
+ */
   function current_time() {
-
     var today = new Date(),
     h = checkTime(today.getHours()),
     m = checkTime(today.getMinutes()),
@@ -61,13 +68,22 @@ $(document).ready(function () {
     // add a zero in front of numbers<10
    return  h + ":" + m + ":" + s;
   }
+
+
+
   //=============================CRONÓMETO=============================
 
   //Creacion de la clase Tiempo, la cual al instanciarse guardará
   // los datos obtenidos por los eventos de los botones
   class Time {
 
-    static fromJson({ hora, minuto, segundo, Type, des, Date_Inicio, Date_Fin, Num_Event }) { 
+    /**
+     * Esta funcion realiza la funcion de instanciar cada uno de los objetos
+     * convertidos de Json a tipo Object desde la LocalStorage
+     * @param {object} 
+     *  @return {Time}
+     */
+    static fromJson({ hora, minuto, segundo, Type, des, Date_Inicio, Date_Fin, Num_Event,createdIn }) { 
       
       const tempTime = new Time(des)
 
@@ -77,26 +93,22 @@ $(document).ready(function () {
       tempTime.Type        = Type;
       tempTime.Date_Inicio = Date_Inicio;
       tempTime.Date_Fin    = Date_Fin;
-      tempTime.Num_Event = Num_Event;
+      tempTime.Num_Event   = Num_Event;
+      tempTime.createdIn   = new Date(createdIn);
       
       return tempTime;
     }
 
-    hora = 0;
-    minuto = 0;
-    segundo = 0;
-    Type = "";
-    des = "";
-    Date_Inicio = "";
-    Date_Fin = "";
-    Num_Event = 0;
     constructor(p_des) {
       this.hora = 0;
       this.minuto = 0;
       this.segundo = 0;
       this.des = p_des;
       this.Type = "";
-     
+      this.Date_Inicio = "";
+      this.Date_Fin = "";
+      this.Num_Event = 0;
+      this.createdIn = new Date();
     }
 
     set setHora(hora) {
@@ -158,25 +170,36 @@ $(document).ready(function () {
       return this.Num_Event;
     }
 
+    get get_createIn() { 
+      return this.createdIn
+      
+    }
+
   }
 
-  //Variables globales
-  var TimeLine =[];
-  //Esta variable indicará en que evento se quedó el programa antes de cerrarlo
-   var Evento =0;
-   var pausaInterval;
-   var WorkInterval;
-   var workTime;
-   
-   var pauseTime;
-   import_LStorage();
+  //Inicializacion de Variables globales
+  var TimeLine = [];
+  var Evento = 0; //Esta variable indicará en que evento se quedó el programa antes de cerrarlo
+  var pausaInterval; //Esta variable la utilizaremos para iniciar y parar el loop del conteo para las pausas
+  var WorkInterval; //Esta variable la utilizaremos para iniciar y parar el loop del conteo para el Worktime
+  var workTime; // hara referencia al espacio de memoria de la instancia Time de worktime
+  var pauseTime; // hara referencia al espacio de memoria de la instancia Time para la pausa actual
+  getDate();
+  import_LStorage();
 
   
 
 
  
-
-  //Esta funcion  hace el trabajo de un reloj, incrementa el valor de los seg,min y hrs en un loop
+/**
+ * Esta funcion  hace el trabajo de un reloj, incrementa el valor de los seg,min y hrs en un loop
+ * y devuenve un string que será la hora del conteo y lo escribira en el cronometro cada seg
+ * @param {Time} Time 
+ * @param {number} p_seg 
+ * @param {number} p_min 
+ * @param {number} p_hr 
+ * @return {string}
+ */
   function Conteo(Time, p_seg, p_min, p_hr) {
     // Segundos
     p_seg++;
@@ -202,22 +225,37 @@ $(document).ready(function () {
     
   }
 
-  function btn_create() {
-    $("#btn_restart").hide("true");
-    $("#btn_pause").text("Pause");
-    $("#btn_pause").addClass("btn btn-warning col-md-2");
-    $("#btn_restart").text("Keep Working!");
-    $("#btn_restart").addClass("btn btn-primary col-md-2");
-    $("#btn_finish").text("Finish Day");
-    $("#btn_finish").addClass("btn btn-danger col-md-2");
+
+/**
+ * Esta funcion esconde y muetra los botones respectivos ya sea para empezar o terminar una pausa
+ * @param {string} instance 
+ */
+  function show_hide_btn(instance) {
+    if (instance === "Pause") {
+      $("#btn_pause").hide("true");
+      $("#btn_restart").show("true");
+
+    } else {
+      $("#btn_pause").show("true");
+      $("#btn_restart").hide("true");
+    }
+    $("#btn_finish").show("true");
   }
 
+  /**
+   * Esta funcion Modifica el titulo principal del panel del cronómetro
+   * @param {String} message 
+   */
+  function Crono_Title(message) {
+    $("#Crono_message").text(message);
+  }
+
+   
   // Evento inicializa el contador de horas de trabajo
   $("#btn_start").click(function (e) {
     e.preventDefault();
-    $("#Crono_message").text("My workday");
-    btn_create();
-
+    Crono_Title("You are Working!");
+    show_hide_btn("WorkTime");
     $(this).parent().addClass("active-btn");
     $(this).hide("true");
     workTime = new Time("WorkTime");
@@ -237,8 +275,7 @@ $(document).ready(function () {
   //Esta Funcion inicia el contador de la pausa e introduce una nueva pausa en el arreglo de TimeLine
   function startPause(des) {
     clearInterval(WorkInterval);
-    $("#btn_restart").show("true");
-    $("#btn_pause").hide("true");
+    show_hide_btn("Pause");
     pauseTime = new Time(des);
     workTime.setH_Fin = current_time();
     pauseTime.setH_Inicio = current_time();
@@ -255,45 +292,46 @@ $(document).ready(function () {
 
   function AddRowToTable(Time) {
 
+    let tmp = (Time.get_createIn.getHours() < 12) ? "am" : "pm"; 
 
     $("#tbody_actions").append(
       Time.get_type == "Work"
-        ? `<tr id="Fila" class="table-primary"><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio}</th><th scope="row">${Time.getH_Fin}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td><td>${Time.getN_Event}</td></tr>`
-        : `<tr id="Fila" ><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio}</th><th scope="row">${Time.getH_Fin}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td><td>${Time.getN_Event}</td></tr>`
+        ? `<tr id="Fila" class="table-primary"><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio} ${tmp}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td></tr>`
+        : `<tr id="Fila" ><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio} ${tmp}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td></tr>`
     );
   }
 
   // Evento al selecccionar que la pausa fue el desayuno
   $("#btn_pause_breakfast").click(function () {
     startPause("breakfast");
-    $("#Crono_message").text("Enjoy your breakfast!");
+    Crono_Title("Enjoy your breakfast!");
+    
     
   });
   // Evento al selecccionar que la pausa fue el almuezo
   $("#btn_pause_lunch").click(function () {
     startPause("Lunch");
-    $("#Crono_message").text("Bon appetit!");
+    Crono_Title("Bon appetit!");
   });
   // Evento al selecccionar que la pausa fue la cena
   $("#btn_pause_dinner").click(function () {
     startPause("Dinner");
-    $("#Crono_message").text("Enjoy your dinner!");
+    Crono_Title("Enjoy your dinner!");
   });
   // Evento al selecccionar que la pausa fue Otro
   $("#btn_pause_other").click(function () {
     startPause("Other");
-    $("#Crono_message").text("Don't be late!");
+    Crono_Title("Don't be late!");
   });
 
   // Evento al al reanudar el trabajo luego de la pausa
   $("#btn_restart").click(function () {
-    $("#Crono_message").text("My workday");
+    Crono_Title("You are Working!");
     pauseTime.setH_Fin = current_time();
     AddRowToTable(pauseTime);
 
     clearInterval(pausaInterval);
-    $("#btn_restart").hide("true");
-    $("#btn_pause").show("true");
+    show_hide_btn("WorkTime");
     workTime.setN_Event = ++Evento;
     
     WorkInterval = setInterval(() => {
@@ -329,6 +367,7 @@ $(document).ready(function () {
     //1.- Guardar en BD (Json)
     
     //2.- Eliminar Item del Local Storage
+    console.log(workTime.get_createIn);
      localStorage.removeItem("Time");
 
     // console.log(workTime.getDuracion);
@@ -406,11 +445,10 @@ $(document).ready(function () {
   function still_counting(Time) {
     Time = Calculo_TiempoInactivo(Time, current_time());
     $("#btn_start").hide("true");
-    btn_create();
+    //btn_create();
     if (Time.get_type === "Work") {
-      $("#Crono_message").text("My workday");
-      $("#btn_restart").hide("true");
-      $("#btn_pause").show("true");
+      Crono_Title("You are Working!");
+      show_hide_btn("WorkTime");
       workTime = Time;
       WorkInterval = setInterval(() => {
         Conteo(workTime, workTime.segundo, workTime.minuto, workTime.hora);
@@ -418,9 +456,8 @@ $(document).ready(function () {
         workTime.setH_Fin = current_time();
       }, 1000);
     } else if (Time.get_type === "Pause") {
-      $("#btn_pause").hide("true");
-      $("#btn_restart").show("true");
-      $("#Crono_message").text("Keep working!");
+      show_hide_btn("Pause");
+      Crono_Title("Go back to work!");
       pauseTime = Time;
       workTime = TimeLine[0];
       pausaInterval = setInterval(() => {

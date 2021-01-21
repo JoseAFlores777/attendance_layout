@@ -88,9 +88,9 @@
                   </div>
                   <div class="btn2_crono">
                          <!--Estos botones se estilizaran desde js -->
-                    <a  id="btn_pause" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></a>
-                    <a id="btn_restart"></a>
-                    <a id="btn_finish" ></a>
+                    <a  id="btn_pause" class="btn btn-warning col-md-2" style="display: none;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Pause</a>
+                    <a id="btn_restart"class="btn btn-primary col-md-2" style="display: none;" >Keep Working!</a>
+                    <a id="btn_finish" class="btn btn-danger col-md-2" style="display: none;" >Finish Day</a>
                   </div>
                 </div>
               </div>
@@ -106,8 +106,7 @@
           <thead>
             <tr>
               <th scope="col" >Action</th>
-              <th scope="col" >Start</th>
-              <th scope="col" >stop</th>
+              <th scope="col" >Event time</th>
               <th scope="col" >Duration</th>
               <th scope="col" >Description</th>
             </tr>
