@@ -254,10 +254,12 @@ $(document).ready(function () {
   }
 
   function AddRowToTable(Time) {
+
+
     $("#tbody_actions").append(
       Time.get_type == "Work"
-        ? `<tr class="table-primary"><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio}</th><th scope="row">${Time.getH_Fin}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td><td>${Time.getN_Event}</td></tr>`
-        : `<tr><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio}</th><th scope="row">${Time.getH_Fin}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td><td>${Time.getN_Event}</td></tr>`
+        ? `<tr id="Fila" class="table-primary"><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio}</th><th scope="row">${Time.getH_Fin}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td><td>${Time.getN_Event}</td></tr>`
+        : `<tr id="Fila" ><th scope="row">${Time.get_type}</th><th scope="row">${Time.getH_Inicio}</th><th scope="row">${Time.getH_Fin}</th><td>${Time.getDuracion}</td><td>${Time.getDes}</td><td>${Time.getN_Event}</td></tr>`
     );
   }
 
@@ -308,7 +310,7 @@ $(document).ready(function () {
     if ($('#btn_restart').is(':visible')) {
       pauseTime.setH_Fin = current_time();
       //pauseTime.setN_Event = ++Evento;
-      AddRowToTable(pauseTime);
+      //AddRowToTable(pauseTime);
     } else { 
       workTime.setH_Fin = current_time();
     }
@@ -372,8 +374,13 @@ $(document).ready(function () {
 
   //rellena la tabla con los datos en los que se quedó
   function add_AlltoTab() { 
+
+    // $("#container").remove("#tbody_actions");
     for (let index = 0; index < TimeLine.length; index++) {
-      AddRowToTable(TimeLine[index]);
+      if ((TimeLine[index].get_type === "Pause")&&(TimeLine[index].getN_Event!=Evento)) {
+        AddRowToTable(TimeLine[index]);
+        
+      }
       
     }
 
