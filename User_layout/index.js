@@ -346,29 +346,51 @@ $(document).ready(function () {
   $("#btn_finish").click(function () {
     // para que la funcion swal se ejecute bien, se necesita importar
     //el CDN - <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    if ($("#btn_restart").is(":visible")) {
-      pauseTime.setH_Fin = current_time();
-    } else {
-      workTime.setH_Fin = current_time();
-    }
-    swal("Well Done!!", "Its all", "success");
-    clearInterval(pausaInterval);
-    clearInterval(WorkInterval);
-    $(".btn2_crono").hide("true");
-    $("#crono").text("Is all for today!");
-    AddRowToTable(workTime);
-    Crono_Title("See you soon!")
+
+    swal({
+      title: "Are you sure?",
+      text: "Once the working day is over, you will not be able to report more working hours!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal("Congratulations! Your work today has been registered in the company database!", {
+          icon: "success",
+        });
+
+        if ($("#btn_restart").is(":visible")) {
+          pauseTime.setH_Fin = current_time();
+        } else {
+          workTime.setH_Fin = current_time();
+        }
+        // swal("Well Done!!", "Its all", "success");
+        clearInterval(pausaInterval);
+        clearInterval(WorkInterval);
+        $(".btn2_crono").hide("true");
+        $("#crono").text("Is all for today!");
+        AddRowToTable(workTime);
+        Crono_Title("See you soon!")
+    //=========================================================================================================
+    //==========================Aqui se hara la entrega de los timepos a la BD=================================
+    
+        //PRIMERO SE GUARADARÁ EN LA BAD Y DESPUES SE ELIMINARA DEL LOCALSTORAGE
+    
+        //1.- Guardar en BD (Json)
 
 
-    // =======Aqui se hara la entrega de los timepos a la BD=======
-
-    //pRIMERO SE GUARADARÁ EN LA BAD Y DESPUES SE ELIMINARA DEL LOCALSTORAGE
-
-    //1.- Guardar en BD (Json)
-
-    //2.- Eliminar Item del Local Storage
-    console.log(workTime.get_createIn);
-    localStorage.removeItem("Time");
+      
+        //2.- Eliminar Item del Local Storage
+        console.log(workTime.get_createIn);
+        localStorage.removeItem("Time");
+        
+    //=========================================================================================================
+      } else {
+        swal("Don't worry, your data was not sent!");
+      }
+    });
+ 
   });
 
 
